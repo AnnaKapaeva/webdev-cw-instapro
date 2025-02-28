@@ -1,6 +1,6 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+import { posts, goToPage, user } from "../index.js";
 
 export function renderPostsPageComponent({ appEl }) {
   // @TODO: реализовать рендер постов из api
@@ -49,7 +49,7 @@ return `<li class="post">
   appEl.innerHTML = appHtml;
 
   renderHeaderComponent({
-    element: document.querySelector(".header-container"),
+    element: document.querySelector(".header-container"), user
   });
 
   for (let userEl of document.querySelectorAll(".post-header")) {

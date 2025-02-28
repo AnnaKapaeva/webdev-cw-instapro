@@ -112,6 +112,9 @@ const renderApp = () => {
       onAddPostClick({ description, imageUrl }) {
         // @TODO: реализовать добавление поста в API
         console.log("Добавляю пост...", { description, imageUrl });
+
+        //туду: в файле api.js написать функцию addPost, который принимает ссылку на картинку, описание картинки и отправляет картинку на сервер 
+       
         goToPage(POSTS_PAGE);
       },
     });

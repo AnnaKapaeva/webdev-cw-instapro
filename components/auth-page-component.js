@@ -1,3 +1,7 @@
+import { loginUser, registerUser } from "../api.js";
+import { renderHeaderComponent } from "./header-component.js";
+import { renderUploadImageComponent } from "./upload-image-component.js";
+
 /**
  * Компонент страницы авторизации.
  * Этот компонент предоставляет пользователю интерфейс для входа в систему или регистрации.
@@ -50,7 +54,7 @@ export function renderAuthPageComponent({ appEl, setUser }) {
                   <input type="text" id="login-input" class="input" placeholder="Логин" />
                   <input type="password" id="password-input" class="input" placeholder="Пароль" />
                   <div class="form-error"></div>
-                  <button class="button" id="login-button">${
+                  <button type="button" class="button" id="login-button">${
                     isLoginMode ? "Войти" : "Зарегистрироваться"
                   }</button>
               </div>
@@ -93,6 +97,7 @@ export function renderAuthPageComponent({ appEl, setUser }) {
     }
 
     // Обработка клика на кнопку входа/регистрации
+
     document.getElementById("login-button").addEventListener("click", () => {
       setError("");
 
@@ -113,6 +118,7 @@ export function renderAuthPageComponent({ appEl, setUser }) {
 
         loginUser({ login, password })
           .then((user) => {
+            console.log(user);
             setUser(user.user);
           })
           .catch((error) => {
