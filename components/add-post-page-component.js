@@ -28,6 +28,10 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     }
 
     document.getElementById("add-button").addEventListener("click", () => {
+      if (!imageUrl || !document.querySelector(".textPost").value ) {
+        alert("заполните все данные")
+        return
+      }
       onAddPostClick({
         description: document.querySelector(".textPost").value,
         imageUrl,

@@ -23,6 +23,27 @@ export function getPosts({ token }) {
     });
 }
 
+
+export function getUserPosts({ token,id }) {
+  return fetch(postsHost + "/user-posts/" + id, {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      return data.posts;
+    });
+}
+
+
 export function registerUser({ login, password, name, imageUrl }) {
   return fetch(baseHost + "/api/user", {
     method: "POST",
@@ -67,3 +88,25 @@ export function uploadImage({ file }) {
     return response.json();
   });
 }
+
+
+export function addPost({ imageUrl, description, token }) {
+  return fetch(postsHost, {
+    method: "POST",
+    body: JSON.stringify({
+      imageUrl,
+      description
+    }),
+    headers: {
+      Authorization: token,
+    }
+  }).then((response) => {
+    if (response.status === 400) {
+      throw new Error("Неправильно переданы данные");
+    }
+    return response.json();
+  });
+}
+
+//написать f добавления лайков 
+//снятия лайков по API
