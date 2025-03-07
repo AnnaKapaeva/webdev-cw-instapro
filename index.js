@@ -132,7 +132,7 @@ addPost({imageUrl, description, token: getToken()}).then(() => goToPage(POSTS_PA
 
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({
-      appEl,
+      appEl, getToken
     });
   }
 

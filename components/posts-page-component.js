@@ -1,8 +1,9 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage, user } from "../index.js";
+import { dislike, like } from "../api.js";
 
-export function renderPostsPageComponent({ appEl }) {
+export function renderPostsPageComponent({ appEl,getToken }) {
   // @TODO: реализовать рендер постов из api
   console.log("Актуальный список постов:", posts);
 
@@ -17,8 +18,8 @@ return `<li class="post">
                       <img class="post-image" src="${post.imageUrl}">
                     </div>
                     <div class="post-likes">
-                      <button data-post-id="${post.id}" class="like-button">
-                        <img src="./assets/images/like-active.svg">
+                      <button data-like="${post.isLiked}" data-post-id="${post.id}" class="like-button">
+                        <img src="./assets/images/like-${post.isLiked?"":"not-"}active.svg">
                       </button>
                       <p class="post-likes-text">
                         Нравится: <strong>${post.likes.length}</strong>
@@ -58,5 +59,20 @@ return `<li class="post">
         userId: userEl.dataset.userId,
       });
     });
+  }
+  handleLike(getToken);
+}
+
+
+function handleLike(getToken) {
+  const likeButtons = document.querySelectorAll(".like-button")
+  for (let likeButton of likeButtons) {
+    likeButton.addEventListener("click", () => {
+      const id = likeButton.dataset.postId
+      const isLiked = likeButton.dataset.like === "true" ?? false 
+      if (isLiked) {
+        dislike({token:getToken(), id})
+      } else {like({token:getToken(), id})}
+    })
   }
 }

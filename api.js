@@ -108,5 +108,37 @@ export function addPost({ imageUrl, description, token }) {
   });
 }
 
+
+export function like({token, id }) {
+  return fetch(postsHost + `/${id}/like`, {
+    method: "POST",
+
+    headers: {
+      Authorization: token,
+    }
+  }).then((response) => {
+    if (response.status === 401) {
+      throw new Error("нет авторизации");
+    }
+    return response.json();
+  });
+}
+
+
+export function dislike({token, id }) {
+  return fetch(postsHost + `/${id}/dislike`, {
+    method: "POST",
+
+    headers: {
+      Authorization: token,
+    }
+  }).then((response) => {
+    if (response.status === 401) {
+      throw new Error("нет авторизации");
+    }
+    return response.json();
+  });
+}
+
 //написать f добавления лайков 
 //снятия лайков по API
