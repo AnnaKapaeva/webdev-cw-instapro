@@ -17,9 +17,14 @@ import {
 } from "./helpers.js";
 import { renderUserPageComponent } from "./components/user-page-component.js";
 
+export let userPageId = 0
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
+
+export const setPosts = (value) => {
+posts = value
+};
 
 const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;
@@ -74,6 +79,7 @@ export const goToPage = (newPage, data) => {
       return getUserPosts({ token: getToken(), id:data.userId })
         .then((newPosts) => {
           page = USER_POSTS_PAGE;
+          userPageId = data.userId
           posts = newPosts;
           renderApp();
         })
@@ -92,7 +98,7 @@ export const goToPage = (newPage, data) => {
   throw new Error("страницы не существует");
 };
 
-const renderApp = () => {
+export const renderApp = () => {
   const appEl = document.getElementById("app");
   if (page === LOADING_PAGE) {
     return renderLoadingPageComponent({
@@ -138,9 +144,19 @@ addPost({imageUrl, description, token: getToken()}).then(() => goToPage(POSTS_PA
 
   if (page === USER_POSTS_PAGE) {
     return renderUserPageComponent({
-      appEl,
+      appEl, getToken
     });
   }
 };
 
 goToPage(POSTS_PAGE);
+
+
+export function escapeHtml(unsafe) {
+  return unsafe
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+}

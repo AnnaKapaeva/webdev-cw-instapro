@@ -1,3 +1,4 @@
+import { escapeHtml } from "../index.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
 
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
@@ -33,7 +34,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
         return
       }
       onAddPostClick({
-        description: document.querySelector(".textPost").value,
+        description: escapeHtml(document.querySelector(".textPost").value),
         imageUrl,
       });
     });

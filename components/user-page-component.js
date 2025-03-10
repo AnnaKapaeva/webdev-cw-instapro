@@ -1,8 +1,9 @@
 
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, user } from "../index.js";
+import { handleLike } from "./posts-page-component.js";
 
-export function renderUserPageComponent({ appEl }) {
+export function renderUserPageComponent({ appEl, getToken }) {
   // @TODO: реализовать рендер постов из api
   console.log("Актуальный список постов:", posts);
 
@@ -14,9 +15,12 @@ return `<li class="post">
                       <img class="post-image" src="${post.imageUrl}">
                     </div>
                     <div class="post-likes">
-                      <button data-post-id="${post.id}" class="like-button">
-                        <img src="./assets/images/like-active.svg">
-                      </button>
+                    ${
+                      user ? `<button data-like="${post.isLiked}" data-post-id="${post.id}" class="like-button">
+                        <img src="./assets/images/like-${post.isLiked?"":"not-"}active.svg">
+                      </button>` : ""
+                    }
+                      
                       <p class="post-likes-text">
                         Нравится: <strong>${post.likes.length}</strong>
                       </p>
@@ -52,5 +56,5 @@ return `<li class="post">
   renderHeaderComponent({
     element: document.querySelector(".header-container"), user
   });
-
+handleLike(getToken)
 }
